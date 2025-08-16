@@ -35,7 +35,18 @@ const MathPracticeApp = () => {
     Space: { bg: 'bg-gradient-to-br from-purple-900 to-blue-900 text-white', primary: 'purple' },
     Jungle: { bg: 'bg-gradient-to-br from-green-100 to-yellow-100', primary: 'green' },
     Ocean: { bg: 'bg-gradient-to-br from-blue-200 to-teal-100', primary: 'teal' }
-  };
+  } as const;
+
+// Literal class names so Tailwind can see them at build time
+const colorClasses = {
+  blue:   { text600: 'text-blue-600',   bg500: 'bg-blue-500',   bg600: 'bg-blue-600',   hoverBg600: 'hover:bg-blue-600' },
+  green:  { text600: 'text-green-600',  bg500: 'bg-green-500',  bg600: 'bg-green-600',  hoverBg600: 'hover:bg-green-600' },
+  purple: { text600: 'text-purple-600', bg500: 'bg-purple-500', bg600: 'bg-purple-600', hoverBg600: 'hover:bg-purple-600' },
+  teal:   { text600: 'text-teal-600',   bg500: 'bg-teal-500',   bg600: 'bg-teal-600',   hoverBg600: 'hover:bg-teal-600' },
+} as const;
+type Primary = keyof typeof colorClasses;
+
+const c = colorClasses[themes[theme].primary as Primary];  
 
   const difficulties = {
     Easy: { label: '🟢 Easy', desc: 'Small numbers, no regrouping' },
@@ -282,7 +293,7 @@ const MathPracticeApp = () => {
   const MenuScreen = () => (
     <div className="text-center space-y-8">
       <div className="mb-8">
-        <h1 className={`text-5xl font-bold text-${themes[theme].primary}-600 mb-4 ${fontSize === 'large' ? 'text-6xl' : ''}`}>
+        <h1 className={`text-5xl font-bold ${c.text600} mb-4 ${fontSize === 'large' ? 'text-6xl' : ''}`}>
           🧮 Math Practice Adventure!
         </h1>
         <p className={`text-xl text-gray-700 ${fontSize === 'large' ? 'text-2xl' : ''}`}>
@@ -481,7 +492,7 @@ const MathPracticeApp = () => {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
-              className={`bg-${themes[theme].primary}-500 h-3 rounded-full transition-all duration-300`}
+              className={`${c.bg500} h-3 rounded-full transition-all duration-300`}
               style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
             ></div>
           </div>
@@ -562,7 +573,7 @@ const MathPracticeApp = () => {
                   <div>
                     <div className="text-red-600 font-bold mb-2">Not quite right! 🤔</div>
                     <div className="text-gray-700">
-                      The answer is <span className={`font-bold text-${themes[theme].primary}-600`}>{currentQuestion.answer}</span>
+                      The answer is <span className={`font-bold ${c.text600}`}>{currentQuestion.answer}</span>
                     </div>
                   </div>
                 )}
@@ -589,7 +600,7 @@ const MathPracticeApp = () => {
     return (
       <div className="text-center space-y-8">
         <div className="mb-8">
-          <h2 className={`font-bold text-${themes[theme].primary}-600 mb-4 ${fontSize === 'large' ? 'text-5xl' : 'text-4xl'}`}>
+          <h2 className={`font-bold ${c.text600} mb-4 ${fontSize === 'large' ? 'text-5xl' : 'text-4xl'}`}>
             Quiz Complete! 🎊
           </h2>
           <div className={`mb-4 ${fontSize === 'large' ? 'text-8xl' : 'text-6xl'}`}>
@@ -602,7 +613,7 @@ const MathPracticeApp = () => {
           <div className={`font-bold text-gray-800 mb-4 ${fontSize === 'large' ? 'text-4xl' : 'text-3xl'}`}>
             Your Score: {score}/{questions.length}
           </div>
-          <div className={`text-${themes[theme].primary}-600 font-semibold mb-4 ${fontSize === 'large' ? 'text-3xl' : 'text-2xl'}`}>
+          <div className={`${c.text600} font-semibold mb-4 ${fontSize === 'large' ? 'text-3xl' : 'text-2xl'}`}>
             {percentage}%
           </div>
           
@@ -665,7 +676,7 @@ const MathPracticeApp = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={resetQuiz}
-              className={`bg-${themes[theme].primary}-500 hover:bg-${themes[theme].primary}-600 text-white font-bold py-3 px-8 rounded-lg flex items-center gap-2 ${fontSize === 'large' ? 'text-xl py-4 px-10' : 'text-lg'}`}
+              className={`${c.bg500} ${c.hoverBg600} text-white font-bold py-3 px-8 rounded-lg flex items-center gap-2 ${fontSize === 'large' ? 'text-xl py-4 px-10' : 'text-lg'}`}
             >
               <RotateCcw size={20} />
               Practice More
