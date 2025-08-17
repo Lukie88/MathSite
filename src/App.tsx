@@ -241,6 +241,12 @@ const c = colorClasses[themes[theme].primary as Primary];
       setStreak(streak + 1);
       setMaxStreak(Math.max(maxStreak, streak + 1));
       playSound('correct');
+
+      //Auto-advance to next question after 500ms if correct
+      setTimeout(() => {
+        nextQuestion();
+      }, 500);
+
     } else {
       setStreak(0);
       setMissedProblems([...missedProblems, {
